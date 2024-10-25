@@ -2,11 +2,12 @@ import streamlit as st
 import policy
 import page
 import utils
+from components import chat
 
 def on_selector_click(selected):
-    utils.set_selected_policy(selected)
+    utils.set_selected_policy_nav(selected)
 
-def renderPolicySelector(selected_nav):
+def render_policy_selector(selected_nav):
     cols = st.columns(len(policy.all_policies))
 
     for index, col in enumerate(cols):
@@ -20,12 +21,20 @@ def renderPolicySelector(selected_nav):
                 args=[policy.all_policies[index].nav_id],
                 disabled=selected_nav == policy.all_policies[index].nav_id)
 
+def user_input_from_chat(role, message):
+    pass
+
 class PoliciesAMA(page.PageTemplate):
     def render(self):
         super().render()
         st.text('Hi, what would you like to learn about today?')
-        renderPolicySelector(utils.get_selected_policy())
-        st.write(utils.get_selected_policy())
+        
+        # policy selector buttons
+        render_policy_selector(utils.get_selected_policy_nav())
+        
+        # container for chat
+        container = chat.ChatContainer(f'Ask me anything about policies related to {utils.get_selected_policy().button_label}', user_input_from_chat)
+        container.render()
 
 policiesAMA = PoliciesAMA('Policies AMA')
 policiesAMA.render()
