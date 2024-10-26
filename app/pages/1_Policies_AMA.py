@@ -3,6 +3,7 @@ import policy
 import page
 import utils
 from components import chat
+from services import policies
 
 def on_selector_click(selected):
     utils.set_selected_policy_nav(selected)
@@ -32,8 +33,15 @@ class PoliciesAMA(page.PageTemplate):
         # policy selector buttons
         render_policy_selector(utils.get_selected_policy_nav())
         
+        # load policy
+        svc = policies.PolicyService(debug_mode=True)
+        ok = svc.load_selected_policy()
+
         # container for chat
-        container = chat.ChatContainer(f'Ask me anything about policies related to {utils.get_selected_policy().button_label}', user_input_from_chat)
+        container = chat.ChatContainer(
+            f'Ask me anything about policies related to {utils.get_selected_policy().button_label}',
+            user_input_from_chat
+        )
         container.render()
 
 policiesAMA = PoliciesAMA('Policies AMA')
