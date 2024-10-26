@@ -1,5 +1,10 @@
 import streamlit as st
+import page
 
-st.set_page_config(page_title='Sustainability Facts')
+class SustainabilityFacts(page.PageTemplate):
+    def render(self):
+        super().render()
+        st.text("Today's fun fact")
 
-st.title('Sustainability Facts')
+sustainabilityFacts = SustainabilityFacts('Sustainability Facts')
+sustainabilityFacts.render()

@@ -5,7 +5,7 @@ import utils
 class Home(page.PageTemplate):
     def render(self):
         super().render()
-
+        
         st.text('Hi, what would you like to learn about today?')
 
         nav_col1, nav_col2 = st.columns(2)
