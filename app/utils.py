@@ -1,10 +1,17 @@
 import streamlit as st
 import const
 import policy
+import env
+from services import documents
 
 def initialise_session():
     if 'selected_policy' not in st.session_state:
         st.session_state['selected_policy'] = const.NAV_POLICY_CLIMATE
+    # loading docs for chat
+    if 'documents' not in st.session_state:
+        st.session_state['documents'] = {}
+        for p in policy.all_policies:
+            st.session_state['documents'][p.nav_id] = documents.Document(p.nav_id, p.policy_url)
     # chat messages
     if 'chat_messages' not in st.session_state:
         st.session_state['chat_messages'] = {}
