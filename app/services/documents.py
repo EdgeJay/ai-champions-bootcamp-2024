@@ -45,9 +45,6 @@ class DocumentStorageService:
         text_splitter = CharacterTextSplitter(chunk_size=self.doc_splitter_chunk_size, chunk_overlap=0)
         return text_splitter.create_documents([text]) # returns List[Document]
 
-    def is_document_loaded(self, id):
-        return st.session_state['documents'][id].is_loaded
-
     def load_and_store_html_document(self, url):
         # get chromadb client
         chroma_client = Chroma(
