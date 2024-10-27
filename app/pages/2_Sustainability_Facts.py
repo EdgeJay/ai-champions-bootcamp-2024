@@ -11,10 +11,12 @@ def sanitise_reply(text):
 class SustainabilityFacts(page.PageTemplate):
     def render(self):
         if super().render():
-            st.button(label='Refresh')
-
             policy_svc = policies.PolicyService(debug_mode=env.is_debug_mode())
-            reply = policy_svc.query_all_policies(f"""
+
+            if st.session_state.get('more_details', None) == None:
+                st.button(label='Refresh')
+
+                reply = policy_svc.query_all_policies(f"""
 Assuming you are a teacher familiar with all environmental-related topics. \
 List down 3 facts related to all policies in an interesting manner as if you are teaching a class of students. \
 Present the facts according to following JSON format enclosed in <Response> tag:
@@ -36,21 +38,28 @@ Each fact section should be separated by "{FACT_SEPARATOR}" \
 Your reply should contain markdown text only and have 3 facts and exclude triple backticks or any enclosing <Response> tags.
 """)
             
-            sections = sanitise_reply(reply).split(FACT_SEPARATOR)
-            
-            for idx, s in enumerate(sections):
-                with st.container(border=True):
+                sections = sanitise_reply(reply).split(FACT_SEPARATOR)
+                
+                for idx, s in enumerate(sections):
                     st.markdown(s)
                     if st.button(label='Tell Me More', key=idx):
-                        reply2 = policy_svc.query_all_policies(f"""
+                        st.session_state['more_details'] = s
+                        st.rerun()
+            else:
+                # more details
+                reply2 = policy_svc.query_all_policies(f"""
 Assuming you are a teacher familiar with all environmental-related topics. \
 Elaborate more on content enclosed in <Content> tag in an interesting manner.
 
 <Content>
-{s}
+{st.session_state['more_details']}
 </Content>
 """)
-                        st.markdown(reply2)
+                if st.button(label='< Back'):
+                    del st.session_state['more_details']
+                    st.rerun()
+
+                st.markdown(reply2)
             
             return True
         
