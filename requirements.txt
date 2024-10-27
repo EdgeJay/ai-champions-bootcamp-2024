@@ -45,6 +45,7 @@ idna==3.7
 importlib_metadata==7.1.0
 importlib_resources==6.4.0
 Jinja2==3.1.4
+jiter==0.6.1
 jsonpatch==1.33
 jsonpointer==2.4
 jsonschema==4.22.0
@@ -106,6 +107,7 @@ referencing==0.35.1
 regex==2024.4.28
 requests==2.31.0
 requests-oauthlib==2.0.0
+requests-toolbelt==1.0.0
 rich==13.7.1
 rpds-py==0.18.1
 rsa==4.9
