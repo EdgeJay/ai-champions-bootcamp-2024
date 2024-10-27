@@ -47,3 +47,8 @@ def check_app_password():
         st.error("😕 Password incorrect")  
     
     return False
+
+def read_file(path):
+    file = open(path, 'r')
+    return file.read()
+    
