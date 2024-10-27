@@ -41,3 +41,9 @@ class PolicyService:
             output = doc_service.query_document(policy.nav_id, query)
             return output['result']
         return None
+
+    def query_all_policies(self, query):
+        openai_service = openai.OpenAIService(api_key=env.get_openai_key())
+        doc_service = documents.DocumentStorageService(openai_service.get_embeddings(), debug_mode=self.debug_mode)
+        output = doc_service.query_documents(query)
+        return output['result']

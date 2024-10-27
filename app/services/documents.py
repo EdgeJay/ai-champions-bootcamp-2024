@@ -94,3 +94,20 @@ class DocumentStorageService:
         )
 
         return qa_chain.invoke(query_text)
+    
+    def query_documents(self, query_text):
+        # get chromadb client
+        chroma_client = self.get_chroma_client()
+
+        # Create retriever interface
+        retriever = chroma_client.as_retriever(
+            search_kwargs={'k': 5}
+        )
+
+        # Create QA chain
+        qa_chain = RetrievalQA.from_chain_type(
+            llm=ChatOpenAI(api_key=env.get_openai_key(), model=env.llm_model()),
+            retriever=retriever
+        )
+
+        return qa_chain.invoke(query_text)
