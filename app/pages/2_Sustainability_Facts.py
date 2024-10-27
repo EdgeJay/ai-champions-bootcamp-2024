@@ -3,8 +3,10 @@ import page
 
 class SustainabilityFacts(page.PageTemplate):
     def render(self):
-        super().render()
-        st.text("Today's fun fact")
+        if super().render():
+            st.text("Today's fun fact")
+            return True
+        return False
 
 sustainabilityFacts = SustainabilityFacts('Sustainability Facts')
 sustainabilityFacts.render()

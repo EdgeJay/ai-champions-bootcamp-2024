@@ -3,7 +3,9 @@ import page
 
 class Methodologies(page.PageTemplate):
     def render(self):
-        super().render()
+        if super().render():
+            return True
+        return False
 
 methodologies = Methodologies('Methodologies')
 methodologies.render()

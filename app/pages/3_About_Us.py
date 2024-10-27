@@ -3,7 +3,9 @@ import page
 
 class AboutUs(page.PageTemplate):
     def render(self):
-        super().render()
+        if super().render():
+            return True
+        return False
 
 aboutUs = AboutUs('About Us')
 aboutUs.render()

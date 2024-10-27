@@ -14,3 +14,6 @@ def llm_model():
 
 def force_reload_documents():
     return os.environ['FORCE_RELOAD_DOCUMENTS'] == '1'
+
+def app_password_protection_enabled():
+    return os.environ['ENABLE_APP_PASSWORD_PROTECTION'] == '1'

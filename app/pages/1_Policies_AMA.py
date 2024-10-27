@@ -30,18 +30,22 @@ def user_input_from_chat(role, message):
 
 class PoliciesAMA(page.PageTemplate):
     def render(self):
-        super().render()
-        st.text('Hi, what would you like to learn about today?')
+        if super().render():
+            st.text('Hi, what would you like to learn about today?')
+            
+            # policy selector buttons
+            render_policy_selector(utils.get_selected_policy_nav())
+            
+            # container for chat
+            container = chat.ChatContainer(
+                f'Ask me anything about policies related to {utils.get_selected_policy().button_label}',
+                user_input_from_chat
+            )
+            container.render()
+
+            return True
         
-        # policy selector buttons
-        render_policy_selector(utils.get_selected_policy_nav())
-        
-        # container for chat
-        container = chat.ChatContainer(
-            f'Ask me anything about policies related to {utils.get_selected_policy().button_label}',
-            user_input_from_chat
-        )
-        container.render()
+        return False
 
 policiesAMA = PoliciesAMA('Policies AMA')
 policiesAMA.render()

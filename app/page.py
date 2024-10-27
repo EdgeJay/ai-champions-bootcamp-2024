@@ -19,6 +19,9 @@ class PageTemplate:
         st.set_page_config(page_title=self.title)
         st.title(self.title)
 
+        if not utils.check_app_password():
+            return False
+
         # Disclaimer
         if self.show_disclaimer:
             with st.expander('IMPORTANT NOTICE', expanded=False):
@@ -29,3 +32,4 @@ This web application is a prototype developed for **educational purposes only**.
 
 Always consult with qualified professionals for accurate and personalized advice.
 """)
+        return True
