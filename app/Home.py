@@ -1,11 +1,8 @@
-import os
 import streamlit as st
-import certifi
 import page
+import bootstrap
 
-# add path to certifi pem file to avoid SSL verification errors
-# when making HTTP requests to external sources
-os.environ['REQUESTS_CA_BUNDLE'] = str(certifi.where())
+bootstrap.initialise_app()
 
 class Home(page.PageTemplate):
     def render(self):
