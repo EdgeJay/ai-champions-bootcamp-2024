@@ -8,6 +8,6 @@ update-requirements:
 	@pip freeze > requirements.txt
 
 start:
-	@streamlit run app/Home.py
+	@streamlit run app/Home_dev.py
 
 .PHONY: install start update-requirements
