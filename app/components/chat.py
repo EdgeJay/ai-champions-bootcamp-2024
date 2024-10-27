@@ -26,6 +26,12 @@ class ChatContainer:
     input_prompt: str
     chat_callback: any
 
+    @classmethod
+    def add_assistant_chat_message(cls, content):
+        chat_id = utils.get_selected_policy_nav()
+        save_chat_message(chat_id, ASSISTANT_ROLE, content)
+        st.rerun()
+
     def __init__(self, input_prompt='Say something', chat_callback=None):
         self.input_prompt = input_prompt
         self.chat_callback = chat_callback
@@ -41,7 +47,7 @@ class ChatContainer:
         if user_input := st.chat_input(self.input_prompt):
             st.chat_message(USER_ROLE).markdown(user_input)
             save_chat_message(chat_id, USER_ROLE, user_input)
-            
+
             if self.chat_callback != None:
                 self.chat_callback(USER_ROLE, user_input)
     

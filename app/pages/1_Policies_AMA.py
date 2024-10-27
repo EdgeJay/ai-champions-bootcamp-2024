@@ -2,6 +2,7 @@ import streamlit as st
 import policy
 import page
 import utils
+import env
 from components import chat
 from services import policies
 
@@ -23,7 +24,9 @@ def render_policy_selector(selected_nav):
                 disabled=selected_nav == policy.all_policies[index].nav_id)
 
 def user_input_from_chat(role, message):
-    pass
+    policy_svc = policies.PolicyService(debug_mode=env.is_debug_mode())
+    reply = policy_svc.query_selected_policy(message)
+    chat.ChatContainer.add_assistant_chat_message(reply)
 
 class PoliciesAMA(page.PageTemplate):
     def render(self):
@@ -33,10 +36,6 @@ class PoliciesAMA(page.PageTemplate):
         # policy selector buttons
         render_policy_selector(utils.get_selected_policy_nav())
         
-        # load policy
-        svc = policies.PolicyService(debug_mode=True)
-        ok = svc.load_selected_policy()
-
         # container for chat
         container = chat.ChatContainer(
             f'Ask me anything about policies related to {utils.get_selected_policy().button_label}',

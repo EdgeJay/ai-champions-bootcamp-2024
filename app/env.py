@@ -11,3 +11,6 @@ def get_openai_key():
 
 def llm_model():
     return os.environ['LLM_MODEL']
+
+def force_reload_documents():
+    return os.environ['FORCE_RELOAD_DOCUMENTS'] == '1'

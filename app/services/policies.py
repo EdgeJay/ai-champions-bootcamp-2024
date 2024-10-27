@@ -27,4 +27,17 @@ class PolicyService:
         openai_service = openai.OpenAIService(api_key=env.get_openai_key())
         # check if policy is loaded
         doc_service = documents.DocumentStorageService(openai_service.get_embeddings(), debug_mode=self.debug_mode)
-        return doc_service.load_and_store_html_document(policy.policy_url)
+        return doc_service.load_and_store_html_document(
+            id=policy.nav_id,
+            url=policy.policy_url,
+            force_reload=env.force_reload_documents()
+        )
+
+    def query_selected_policy(self, query):
+        openai_service = openai.OpenAIService(api_key=env.get_openai_key())
+        policy = utils.get_selected_policy()
+        if policy != None:
+            doc_service = documents.DocumentStorageService(openai_service.get_embeddings(), debug_mode=self.debug_mode)
+            output = doc_service.query_document(policy.nav_id, query)
+            return output['result']
+        return None
